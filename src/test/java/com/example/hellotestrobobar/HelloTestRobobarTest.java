@@ -18,6 +18,15 @@ public class HelloTestRobobarTest {
     private Map<String, Object> vars;
     JavascriptExecutor js;
 
+    private By RoboColaIncrementButton = By.cssSelector(".ng-scope:nth-child(1) > td .input-group-append > .btn");
+    private By RoboBeerIncrementButton = By.cssSelector(".ng-scope:nth-child(2) > td .input-group-append > .btn");
+    private By RobWineIncrementButton = By.cssSelector(".ng-scope:nth-child(3) .input-group-append > .btn");
+    private By TotalText = By.cssSelector("tr:nth-child(4) > .ng-binding");
+    private By AgeInput = By.id("ageInput");
+    private By SuccessButton = By.cssSelector(".btn-success");
+    private By AgeAlert = By.cssSelector(".alert > .ng-binding");
+
+
     @BeforeEach
     public void setUp() {
         driver = new ChromeDriver();
@@ -34,106 +43,106 @@ public class HelloTestRobobarTest {
     public void onexRobwine() {
         driver.get("http://localhost:3000/");
         driver.manage().window().setSize(new Dimension(1847, 935));
-        driver.findElement(By.cssSelector(".ng-scope:nth-child(3) .input-group-append > .btn")).click();
-        assertThat(driver.findElement(By.cssSelector("tr:nth-child(4) > .ng-binding")).getText(), is("€3.00"));
+        driver.findElement(RobWineIncrementButton).click();
+        assertThat(driver.findElement(TotalText).getText(), is("€3.00"));
     }
 
     @Test
-    public void twoxRobaColaCheckout() {
+    public void twoxRoboColaCheckout() {
         driver.get("http://localhost:3000/");
         driver.manage().window().setSize(new Dimension(1847, 935));
-        driver.findElement(By.cssSelector(".ng-scope:nth-child(1) > td .input-group-append > .btn")).click();
-        driver.findElement(By.cssSelector(".btn-success")).click();
+        driver.findElement(RoboColaIncrementButton).click();
+        driver.findElement(SuccessButton).click();
         {
-            WebElement element = driver.findElement(By.cssSelector(".btn-success"));
+            WebElement element = driver.findElement(SuccessButton);
             Actions builder = new Actions(driver);
             builder.moveToElement(element).perform();
         }
-        driver.findElement(By.cssSelector(".btn-success")).click();
+        driver.findElement(SuccessButton).click();
     }
 
     @Test
-    public void onexRobaCola1xRoboBeer() {
+    public void onexRoboCola1xRoboBeer() {
         driver.get("http://localhost:3000/");
         driver.manage().window().setSize(new Dimension(1847, 935));
-        driver.findElement(By.cssSelector(".ng-scope:nth-child(1) > td .input-group-append > .btn")).click();
-        driver.findElement(By.cssSelector(".ng-scope:nth-child(2) > td .input-group-append > .btn")).click();
-        assertThat(driver.findElement(By.cssSelector("tr:nth-child(4) > .ng-binding")).getText(), is("€3.25"));
+        driver.findElement(RoboColaIncrementButton).click();
+        driver.findElement(RoboBeerIncrementButton).click();
+        assertThat(driver.findElement(TotalText).getText(), is("€3.25"));
     }
 
     @Test
-    public void onexRobaCola1xRoboBeer1xRobwine() {
+    public void onexRoboCola1xRoboBeer1xRobwine() {
         driver.get("http://localhost:3000/");
         driver.manage().window().setSize(new Dimension(1847, 935));
-        driver.findElement(By.cssSelector(".ng-scope:nth-child(1) > td .input-group-append > .btn")).click();
-        driver.findElement(By.cssSelector(".ng-scope:nth-child(2) > td .input-group-append > .btn")).click();
-        driver.findElement(By.cssSelector(".ng-scope:nth-child(3) .input-group-append > .btn")).click();
-        assertThat(driver.findElement(By.cssSelector("tr:nth-child(4) > .ng-binding")).getText(), is("€6.25"));
+        driver.findElement(RoboColaIncrementButton).click();
+        driver.findElement(RoboBeerIncrementButton).click();
+        driver.findElement(RobWineIncrementButton).click();
+        assertThat(driver.findElement(TotalText).getText(), is("€6.25"));
     }
 
     @Test
     public void onexRoboBeer() {
         driver.get("http://localhost:3000/");
         driver.manage().window().setSize(new Dimension(1847, 935));
-        driver.findElement(By.cssSelector(".ng-scope:nth-child(2) > td .input-group-append > .btn")).click();
-        assertThat(driver.findElement(By.cssSelector("tr:nth-child(4) > .ng-binding")).getText(), is("€2.00"));
+        driver.findElement(RoboBeerIncrementButton).click();
+        assertThat(driver.findElement(TotalText).getText(), is("€2.00"));
     }
 
     @Test
     public void onexRoboBeerCheckoutLess18() {
         driver.get("http://localhost:3000/");
         driver.manage().window().setSize(new Dimension(1847, 935));
-        driver.findElement(By.cssSelector(".ng-scope:nth-child(2) > td .input-group-append > .btn")).click();
-        driver.findElement(By.cssSelector(".btn-success")).click();
-        driver.findElement(By.id("ageInput")).click();
-        driver.findElement(By.id("ageInput")).sendKeys("17");
-        driver.findElement(By.cssSelector(".btn-success")).click();
-        assertThat(driver.findElement(By.cssSelector(".alert > .ng-binding")).getText(), is("Only adults can buy alcohol!"));
+        driver.findElement(RoboBeerIncrementButton).click();
+        driver.findElement(SuccessButton).click();
+        driver.findElement(AgeInput).click();
+        driver.findElement(AgeInput).sendKeys("17");
+        driver.findElement(SuccessButton).click();
+        assertThat(driver.findElement(AgeAlert).getText(), is("Only adults can buy alcohol!"));
     }
 
     @Test
     public void onexRoboBeerCheckoutGreater18() {
         driver.get("http://localhost:3000/");
         driver.manage().window().setSize(new Dimension(1847, 935));
-        driver.findElement(By.cssSelector(".ng-scope:nth-child(2) > td .input-group-append > .btn")).click();
-        driver.findElement(By.cssSelector(".btn-success")).click();
-        driver.findElement(By.id("ageInput")).click();
-        driver.findElement(By.id("ageInput")).sendKeys("21");
-        driver.findElement(By.cssSelector(".btn-success")).click();
+        driver.findElement(RoboBeerIncrementButton).click();
+        driver.findElement(SuccessButton).click();
+        driver.findElement(AgeInput).click();
+        driver.findElement(AgeInput).sendKeys("21");
+        driver.findElement(SuccessButton).click();
     }
 
     @Test
     public void onexRoboCola() {
         driver.get("http://localhost:3000/");
         driver.manage().window().setSize(new Dimension(1847, 935));
-        driver.findElement(By.cssSelector(".ng-scope:nth-child(1) > td .input-group-append > .btn")).click();
-        assertThat(driver.findElement(By.cssSelector("tr:nth-child(4) > .ng-binding")).getText(), is("€1.25"));
+        driver.findElement(RoboColaIncrementButton).click();
+        assertThat(driver.findElement(TotalText).getText(), is("€1.25"));
     }
 
     @Test
     public void twoxRobwine() {
         driver.get("http://localhost:3000/");
         driver.manage().window().setSize(new Dimension(1847, 935));
-        driver.findElement(By.cssSelector(".ng-scope:nth-child(3) .input-group-append > .btn")).click();
-        driver.findElement(By.cssSelector(".ng-scope:nth-child(3) .input-group-append > .btn")).click();
-        assertThat(driver.findElement(By.cssSelector("tr:nth-child(4) > .ng-binding")).getText(), is("€6.00"));
+        driver.findElement(RobWineIncrementButton).click();
+        driver.findElement(RobWineIncrementButton).click();
+        assertThat(driver.findElement(TotalText).getText(), is("€6.00"));
     }
 
     @Test
     public void twoxRoboBeer() {
         driver.get("http://localhost:3000/");
         driver.manage().window().setSize(new Dimension(1847, 935));
-        driver.findElement(By.cssSelector(".ng-scope:nth-child(2) > td .input-group-append > .btn")).click();
-        driver.findElement(By.cssSelector(".ng-scope:nth-child(2) > td .input-group-append > .btn")).click();
-        assertThat(driver.findElement(By.cssSelector("tr:nth-child(4) > .ng-binding")).getText(), is("€4.00"));
+        driver.findElement(RoboBeerIncrementButton).click();
+        driver.findElement(RoboBeerIncrementButton).click();
+        assertThat(driver.findElement(TotalText).getText(), is("€4.00"));
     }
 
     @Test
     public void twoxRoboCola() {
         driver.get("http://localhost:3000/");
         driver.manage().window().setSize(new Dimension(1847, 935));
-        driver.findElement(By.cssSelector(".ng-scope:nth-child(1) > td .input-group-append > .btn")).click();
-        driver.findElement(By.cssSelector(".ng-scope:nth-child(1) > td .input-group-append > .btn")).click();
-        assertThat(driver.findElement(By.cssSelector("tr:nth-child(4) > .ng-binding")).getText(), is("€2.50"));
+        driver.findElement(RoboColaIncrementButton).click();
+        driver.findElement(RoboColaIncrementButton).click();
+        assertThat(driver.findElement(TotalText).getText(), is("€2.50"));
     }
 }
